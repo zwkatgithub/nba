@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String, Integer, ForeignKey
 #from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from constdata import MAX_LINK_LENGTH, MAX_COLLEGE_LENGTH,DEFAULT_LENGTH ,MAX_BIRTH_LENGTH, MAX_NAME_LENGTH, MAX_FROM_TO_LENGTH
@@ -27,3 +27,11 @@ class Player(Base):
 
     def __repr__(self):
         return '< %r, %r>' % (self.id, self.name)
+
+class PlayerData(Base):
+    __tablename__ = 'playerdata'
+
+    id  = Column(Integer, primary_key=True)
+    playerId = Column(Integer, ForeignKey(Player.id))
+    
+
