@@ -1,9 +1,9 @@
 from sqlalchemy.orm import sessionmaker
-from model import Player, Base
+from model import Player, Base, PlayerData
 from sqlalchemy import create_engine
 import json
 from constdata import sqlUrl
-
+from process import readData
 
 
 engine = create_engine(sqlUrl, encoding='utf-8')
@@ -13,16 +13,24 @@ DBSession = sessionmaker(bind=engine)
 
 session = DBSession()
 
-dataFile = './data/all_players'
+dataFile = './data/nba_data3.txt'
 
 if __name__ == '__main__':
-    with open(dataFile,'r') as f:
-
-        for line in f.readlines():
-            for obj in json.loads(line.strip()):
-                player = Player(obj['Player'],obj['From'],obj['To'],
-                    obj['Pos'],obj['Height'],obj['Weight'],
-                    obj['Birth'],obj['College'],obj['Link'])
-                session.add(player)
-        session.commit()
+    
+    data = readData(dataFile)
+    for i in range(len(data)):
+        
+        args = []
+        row = data.iloc[i,:]
+        player = session.query(Player).filter_by(link = row[-1]).first()
+        if player is None:
+            continue
+        args.append(player.id)
+        args.append(row[0])
+        for j in row[1:-1]:
+            args.append(float(j))
+        print(args)
+        playerData = PlayerData(*args)
+        session.add(playerData)
+    session.commit()
     session.close()
