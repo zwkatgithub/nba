@@ -4,4 +4,4 @@ MAX_BIRTH_LENGTH = 25
 DEFAULT_LENGTH = 5
 MAX_COLLEGE_LENGTH = 60
 MAX_LINK_LENGTH = 65
-sqlUrl = "mysql+pymysql://root:zwk19950102@127.0.0.1/nba"
+sqlUrl = "mysql+pymysql://root:***@127.0.0.1/nba"
