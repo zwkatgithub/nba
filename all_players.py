@@ -55,3 +55,4 @@ with open(dataFile,"w") as file:
     json.dump(players,file)
 
 driver.close()
+driver.quit()
